@@ -1,0 +1,8 @@
+{
+    "env":{
+        "JWT_KEY": "",
+        "database": "",
+        "databaseUser":"",
+        "databasePassword": ""
+    }
+}
