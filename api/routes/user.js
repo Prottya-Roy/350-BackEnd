@@ -19,4 +19,7 @@ router.patch("/", checkAuth, userController.updateUser);
 
 router.patch("/changePass", userController.updatePass);
 
+router.get('/auth', checkAuth, userController.authUser);
+
+
 module.exports = router;
