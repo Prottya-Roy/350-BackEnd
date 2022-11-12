@@ -142,10 +142,8 @@ exports.updatePass = async (req, res) => {
 }
 
 exports.authUser = (req, res) => {
-  res.staus(200).json({
-    message: "you are authenticated",
-    username: req.username,
-    userID: req.userID,
+  res.status(200).json({
+    message: "OK", user : req.userID
   });
 };
 
