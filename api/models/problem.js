@@ -6,15 +6,35 @@ const Problem = sequelize.define("problem", {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     allowNull: false,
-    primaryKey: true,
+    primaryKey: true, 
   },
-  name: {
+  title: {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  description: {
-    type: Sequelize.STRING,
+  statement: {
+    type: Sequelize.STRING(1000),
     allowNull: false,
+  },
+  inputDescription: {
+    type: Sequelize.STRING(1000),
+    allowNull: false,
+  },
+  outputDescription: {
+    type: Sequelize.STRING(1000),
+    allowNull: false,
+  },
+  difficulty: {
+    type: Sequelize.INTEGER,
+    allowNull: true
+  },
+  timeLimit: {
+    type: Sequelize.INTEGER,
+    allowNull: true
+  },
+  memoryLimit: {
+    type: Sequelize.INTEGER,
+    allowNull: true
   },
 });
 

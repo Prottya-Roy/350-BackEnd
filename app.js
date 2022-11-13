@@ -19,7 +19,7 @@ const catchAsync = (fn) => (req, res, next) => {
   });
 };
 
-app.use("/problems", catchAsync(problemRoutes));
+app.use("/problem", catchAsync(problemRoutes));
 app.use("/user", catchAsync(userRoutes));
 
 app.use((req, res, next) => {

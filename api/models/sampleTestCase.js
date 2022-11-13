@@ -7,11 +7,11 @@ const SampleTestCase = sequelize.define("sampleTestCase", {
     allowNull: false,
   },
   input: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING(1000),
     allowNull: false,
   },
   output: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING(1000),
     allowNull: false,
   },
 });

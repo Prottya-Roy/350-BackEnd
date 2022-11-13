@@ -16,7 +16,6 @@ const server = http.createServer(app);
 User.hasMany(Submission);
 User.hasMany(Problem);
 Problem.hasMany(Submission);
-Contest.hasMany(Problem);
 User.hasMany(Contest);
 Problem.hasMany(SampleTestCase);
 Problem.hasMany(MainTestCase);
@@ -24,7 +23,7 @@ Problem.hasMany(MainTestCase);
 const startServer = async (server) => {
   await sequelize.authenticate();
   await sequelize.sync({ 
-    // force: true
+    // force: true  
    }).then((result) => {
     console.log(result);
   });
