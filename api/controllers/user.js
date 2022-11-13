@@ -29,12 +29,12 @@ exports.registerUser = async (req, res) => {
         email: req.body.email,
         password: hash,
         regNo: req.body.regNo,
-        isJudge: false
+        isJudge: true,
       });
       res.status(201).json({ userID: user.userID });
     }
   } catch (err) {
-    console.log(err,"\n\n");
+    console.log(err, "\n\n");
     res.status(500).json({ msg: "Internal server error" });
   }
 };
@@ -42,17 +42,17 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     let user;
-    if(invalidEmail(req.body.username)){
+    if (invalidEmail(req.body.username)) {
       user = await User.scope("withPassword").findOne({
         where: { username: req.body.username },
       });
-    } else{
+    } else {
       console.log("logging in with email");
-        user = await User.scope("withPassword").findOne({
-          where: { email: req.body.username },
-        });
-    } 
-    
+      user = await User.scope("withPassword").findOne({
+        where: { email: req.body.username },
+      });
+    }
+
     if (user) {
       const result = await bcrypt.compare(req.body.password, user.password);
 
@@ -101,7 +101,8 @@ exports.updateUser = async (req, res) => {
     if (invalidEmail(req.body.email)) {
       res.status(400).json({ msg: "Invalid email" });
     } else {
-      await User.update({
+      await User.update(
+        {
           name: req.body.name,
           email: req.body.email,
           username: req.body.username,
@@ -121,29 +122,30 @@ exports.updateUser = async (req, res) => {
 exports.updatePass = async (req, res) => {
   try {
     const user = await User.scope("withPassword").findOne({
-        where: { username: req.body.username },
-      });
-    if(user) {
+      where: { username: req.body.username },
+    });
+    if (user) {
       const result = await bcrypt.compare(req.body.password, user.password);
-      if(result){
+      if (result) {
         const hash = await bcrypt.hash(req.body.newPass, saltRounds);
-        await User.update({
-          password: hash,
-        },
+        await User.update(
+          {
+            password: hash,
+          },
           { where: { userID: user.userID } }
         );
         res.status(204).json({ msg: "Password Updated" });
-      }  else res.status(400).json({ msg: "Invalid" });
+      } else res.status(400).json({ msg: "Invalid" });
     } else res.status(400).json({ msg: "Invalid" });
-
   } catch (error) {
     res.status(500).json({ msg: "Internal server error" });
   }
-}
+};
 
 exports.authUser = (req, res) => {
   res.status(200).json({
-    message: "OK", user : req.userID
+    message: "OK",
+    user: req.userID,
   });
 };
 

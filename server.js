@@ -22,11 +22,13 @@ Problem.hasMany(MainTestCase);
 
 const startServer = async (server) => {
   await sequelize.authenticate();
-  await sequelize.sync({ 
-    // force: true  
-   }).then((result) => {
-    console.log(result);
-  });
+  await sequelize
+    .sync({
+      // force: true,
+    })
+    .then((result) => {
+      console.log(result);
+    });
   server.listen(port, () => {
     console.log("Server Started...");
   });
