@@ -36,6 +36,10 @@ const Problem = sequelize.define("problem", {
     type: Sequelize.INTEGER,
     allowNull: true
   },
+  author: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
 });
 
 module.exports = Problem;

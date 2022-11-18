@@ -8,31 +8,13 @@ router.get("/", problemController.getAllProblem);
 
 router.post("/", checkAuth, problemController.newProblem);
 
-router.post("/tags", checkAuth, problemController.addTags);
+router.get("/byId/:id", problemController.getSingleProblem);
 
-router.post("/sampleCase", checkAuth, problemController.addsampleCase);
+router.get("/getTag/:id", problemController.getTag);
 
-router.post("/mainInput", checkAuth, problemController.addmainInput);
-
-router.post("/mainOutput", checkAuth, problemController.addmainOutput);
-
-router.post("/mainCase", checkAuth, problemController.addmainCase);
+router.get("/getSample/:id", problemController.getSample);
 
 
-// router.post("/", (req, res, next) => {
-//   res.status(200).json({
-//     message: "problems post request",
-//   });
-// });
-// router.get("/:problemID", (req, res, next) => {
-//   res.status(200).json({
-//     message: "one problem get request",
-//   });
-// });
-// router.delete("/:problemID", (req, res, next) => {
-//   res.status(200).json({
-//     message: "problems delete request",
-//   });
-// });
+
 
 module.exports = router;
