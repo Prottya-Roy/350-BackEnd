@@ -24,7 +24,7 @@ exports.getSingleProblem = async (req, res) => {
 
 exports.getTag = async (req, res) => {
     try {
-        const tag = await Tag.findAll({ problemId: req.params.id });
+        const tag = await Tag.findAll({ where: {problemId: req.params.id} });
         res.status(200).json(tag);
     } catch (error) {
       res.status(500).json({ msg: "Internal server error" });
@@ -33,7 +33,7 @@ exports.getTag = async (req, res) => {
 
 exports.getSample = async (req, res) => {
     try {
-        const sample = await Sample.findAll({ problemId: req.params.id });
+        const sample = await Sample.findAll({ where: {problemId: req.params.id} });
         res.status(200).json(sample);
     } catch (error) {
       res.status(500).json({ msg: "Internal server error" });
@@ -65,10 +65,17 @@ exports.newProblem = async (req, res) => {
 
         await req.body.sampleTestList.map((test, index) => {
             if(index < req.body.sampleTestList.length - 1){
+                let input = test.input;
+                let output = test.output;
+                console.log(input);
+                console.log(output);
+                
+                input.replace('\n', '</p><p>');
+                output.replace('\n', '</p><p>');
                 Sample.create({
                     problemId:problem.problemID,
-                    input:test.input,
-                    output:test.output,
+                    input,
+                    output,
                     caseNo:index
                 }, /*{transaction:t}*/)
             }

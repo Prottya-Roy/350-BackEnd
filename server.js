@@ -6,6 +6,7 @@ const app = require("./app");
 const sequelize = require("./api/database/database");
 const jwt = require("jsonwebtoken");
 const fs = require('fs');
+const judge = require('./judge');
 
 
 
@@ -125,6 +126,45 @@ io.on('connection', (socket) => {
 			socket.emit('sendOutput', testId, blockId + 1);
 		}
 	});
+
+	socket.on('judge', (pid, source, type) => {
+		const enc = (type=='text'?'ascii' : 'base64');
+		const folderUrl = "../350-submissions/"+pid+"_"+ socket.data.userID+"_"+Date.now();
+		socket.emit('submission'. folderUrl);
+		try {
+			fs.mkdirSync(folderUrl, (err) => {
+				if (err) {
+					console.log(err);
+					socket.emit('Error', "e8");
+				}
+			});
+			fs.writeFileSync(folderUrl+"/source.cpp", source, enc, (err) => {
+				if(err){
+					console.log(err);
+					socket.emit('Error', "e9");
+				}
+			})
+			socket.emit('Running', 1);
+
+			const next = (tid, res) => {
+				console.log(tid, res);
+				if(res == 2 ){
+					socket.emit('Verdict', 0);
+				} else if(res == 0){
+					socket.emit('Running', tid + 2);
+					judge.check(pid, tid + 1, folderUrl, 1, next);
+				} else {
+					socket.emit('Verdict', res, tid+1);
+				}
+			}
+			judge.check(pid, 0, folderUrl, 1, next);
+			
+		} catch (error) {
+			console.log(error);
+			socket.emit('Error', "e10");
+		}
+
+	})
 
 
 	socket.on('disconnect',() => {
