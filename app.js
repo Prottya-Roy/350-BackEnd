@@ -7,6 +7,7 @@ const cors = require("cors");
 const problemRoutes = require("./api/routes/problems");
 const userRoutes = require("./api/routes/user");
 const contestRoutes = require("./api/routes/contest");
+const submissionRoutes = require("./api/routes/submission");
 const errorHandler = require("./api/middlewares/errorhandler");
 
 app.use(morgan("dev"));
@@ -23,6 +24,7 @@ const catchAsync = (fn) => (req, res, next) => {
 app.use("/problem", catchAsync(problemRoutes));
 app.use("/user", catchAsync(userRoutes));
 app.use("/contest", catchAsync(contestRoutes));
+app.use("/submission", catchAsync(submissionRoutes));
 
 app.use((req, res, next) => {
   const error = new Error("Not found");

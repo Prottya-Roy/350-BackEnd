@@ -12,25 +12,21 @@ const Submission = sequelize.define("submission", {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  language: {
-    type: Sequelize.STRING,
-    enum: ["c++"],
+  userId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
   },
-  submissionTime: {
-    type: Sequelize.STRING,
+  problemId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  contestId: {
+    type: Sequelize.INTEGER,
     allowNull: false,
   },
   verdict: {
     type: Sequelize.STRING,
-    enum: [
-      "Accepted",
-      "Wrong Answer",
-      "Compilation Error",
-      "TLE",
-      "MLE",
-      "Runtime Error",
-      "Presentation Error",
-    ],
+    allowNull: false,
   },
 });
 
