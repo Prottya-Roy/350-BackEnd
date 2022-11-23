@@ -1,4 +1,5 @@
 const Submission = require("../models/submission");
+const Problem = require("../models/problem");
 const sequelize = require("../database/database");
 
 exports.getAllSubmission = async (req, res) => {
@@ -46,27 +47,38 @@ exports.getSubmissionByProblem = async (req, res) => {
 };
 
 exports.getSubmissionByContest = async (req, res) => {
-  try {
-    const submissions = await Submission.findAll({
-      where: { contestId: req.params.contestId },
-    });
-    res.status(200).json(submissions);
-  } catch (error) {
-    res.status(500).json({ msg: "Internal server error" });
+  if(req.contestId == req.params.contestID){
+    try {
+      const submissions = await Submission.findAll({
+        attributes: {exclude: ["solution"]},
+        where: { contestId: req.params.contestID },
+      });
+      res.status(200).json(submissions);
+    } catch (error) {
+      res.status(500).json({ msg: "Internal server error" });
+    }
   }
 };
 
 exports.newSubmission = async (req, res) => {
   try {
+
+    const problem = await Problem.findByPk(req.body.problemId);
+
+
+
     const submission = await Submission.create({
       solution: req.body.solution,
       userId: req.userID,
       problemId: req.body.problemId,
       contestId: req.body.contestId,
       verdict: req.body.verdict,
+      userName: req.username,
+      problemTitle: problem.title
     });
     res.status(201).json({ submissionID: submission.submissionID });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ msg: "Internal server error" });
   }
 };

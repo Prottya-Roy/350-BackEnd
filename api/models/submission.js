@@ -22,9 +22,17 @@ const Submission = sequelize.define("submission", {
   },
   contestId: {
     type: Sequelize.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   verdict: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  userName: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  problemTitle: {
     type: Sequelize.STRING,
     allowNull: false,
   },

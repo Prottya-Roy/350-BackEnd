@@ -53,7 +53,7 @@ io.on("connection", (socket) => {
 
   socket.on("openProblemFolder", (pid) => {
     try {
-      fs.mkdir("../350-storage/" + pid, (err) => {
+      fs.mkdirSync("../350-storage/" + pid, (err) => {
         if (err) {
           console.log(err);
           socket.emit("Error", "e2");
@@ -68,7 +68,7 @@ io.on("connection", (socket) => {
 
   socket.on("openTestFolder", (pid, testId) => {
     try {
-      fs.mkdir("../350-storage/" + pid + "/" + testId, (err) => {
+      fs.mkdirSync("../350-storage/" + pid + "/" + testId, (err) => {
         if (err) {
           console.log(err);
           socket.emit("Error", "e4");
@@ -86,7 +86,7 @@ io.on("connection", (socket) => {
     localBuffer += buffer;
     if (islast) {
       try {
-        fs.writeFile(
+        fs.writeFileSync(
           "../350-storage/" + pid + "/" + testId + "/input.txt",
           localBuffer,
           "base64",
@@ -112,7 +112,7 @@ io.on("connection", (socket) => {
 
     if (islast) {
       try {
-        fs.writeFile(
+        fs.writeFileSync(
           "../350-storage/" + pid + "/" + testId + "/output.txt",
           localBuffer,
           "base64",
@@ -135,8 +135,7 @@ io.on("connection", (socket) => {
 
   socket.on("judge", (pid, source, type) => {
     const enc = type == "text" ? "ascii" : "base64";
-    const folderUrl =
-      "../350-submissions/" + pid + "_" + socket.data.userID + "_" + Date.now();
+    const folderUrl = "../350-submissions/" + pid + "_" + socket.data.userID + "_" + Date.now();
     socket.emit("submission".folderUrl);
     try {
       fs.mkdirSync(folderUrl, (err) => {
@@ -161,7 +160,7 @@ io.on("connection", (socket) => {
           socket.emit("Running", tid + 2);
           judge.check(pid, tid + 1, folderUrl, 1, next);
         } else {
-          socket.emit("Verdict", res, tid + 1);
+          socket.emit("Verdict", res, tid + 1, folderUrl);
         }
       };
       judge.check(pid, 0, folderUrl, 1, next);

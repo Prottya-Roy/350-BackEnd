@@ -5,12 +5,19 @@ const Problem = sequelize.define("problemOfContest", {
   problemID: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    primaryKey: true,
   },
   contestID: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    primaryKey: true,
   },
+  index: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  alias: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  
 });
 module.exports = Problem;

@@ -33,7 +33,7 @@ const Contest = sequelize.define(
   },
   {
     defaultScope: {
-      attributes: { exclude: ["password"] },
+      attributes: { exclude: ["contestPassword"] },
     },
     scopes: {
       withPassword: {

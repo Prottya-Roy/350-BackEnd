@@ -15,7 +15,7 @@ exports.check = (pid, tid, folderUrl, timeLimit, next) => {
     const input = "../350-storage/"+pid+"/"+tid+"/input.txt";
     const output = "../350-storage/"+pid+"/"+tid+"/output.txt";
     const result = folderUrl+'/result.txt';
-    exec('g++ -std=c++17 '+folderUrl+'/source.cpp -o out.exe && timeout '+timeLimit+'s ./out.exe < ./'+input+' > ./'+result,
+    exec('g++ -std=c++17 '+folderUrl+'/source.cpp -o ../350-storage/out.exe && timeout '+timeLimit+'s ../350-storage/out.exe < ./'+input+' > ./'+result,
      (err, stdout, stderr) => {
         if(err) {
             //err.code: 136-re  124-tle 1-ce
