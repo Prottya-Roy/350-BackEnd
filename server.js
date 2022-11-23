@@ -155,7 +155,7 @@ io.on("connection", (socket) => {
       const next = (tid, res) => {
         console.log(tid, res);
         if (res == 2) {
-          socket.emit("Verdict", 0);
+          socket.emit("Verdict", 0, 100, folderUrl);
         } else if (res == 0) {
           socket.emit("Running", tid + 2);
           judge.check(pid, tid + 1, folderUrl, 1, next);

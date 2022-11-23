@@ -27,7 +27,7 @@ exports.getSubmissionById = async (req, res) => {
 exports.getSubmissionbByUser = async (req, res) => {
   try {
     const submissions = await Submission.findAll({
-      where: { userId: req.params.userId },
+      where: { userId: req.params.userId,  verdict: "Accepted"},
     });
     res.status(200).json(submissions);
   } catch (error) {

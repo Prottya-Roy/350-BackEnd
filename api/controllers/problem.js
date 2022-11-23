@@ -5,7 +5,7 @@ const sequelize = require("../database/database");
 
 exports.getAllProblem = async (req, res) => {
     try {
-        const problems = await Problem.findAll({attributes:['problemID', 'title']});
+        const problems = await Problem.findAll({attributes:['problemID', 'title', 'difficulty']});
         console.log(problems);
         res.status(200).json(problems);
     } catch (error) {
@@ -16,6 +16,17 @@ exports.getAllProblem = async (req, res) => {
 exports.getSingleProblem = async (req, res) => {
     try {
         const problem = await Problem.findByPk(req.params.id);
+        problem? res.status(200).json(problem): res.status(404).json({msg:"Problem not found"});
+    } catch (error) {
+      res.status(500).json({ msg: "Internal server error" });
+    }
+};
+
+exports.getProblemFromUser = async (req, res) => {
+    try {
+        const problem = await Problem.findAll(
+            {where:{authorId: req.params.id}}
+        );
         problem? res.status(200).json(problem): res.status(404).json({msg:"Problem not found"});
     } catch (error) {
       res.status(500).json({ msg: "Internal server error" });
@@ -51,7 +62,8 @@ exports.newProblem = async (req, res) => {
             inputDescription: req.body.inputDescription,
             outputDescription: req.body.outputDescription,
             difficulty: req.body.diff,
-            author: req.username
+            author: req.username,
+            authorId: req.userID
         }, {transaction:t});
         
         await req.body.tagList.map((element, index) => {
